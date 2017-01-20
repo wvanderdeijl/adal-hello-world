@@ -1,0 +1,25 @@
+<!doctype html>
+<html ng-app="adal-hello-world">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <base href="/">
+</head>
+
+<body>
+    <script src="lib/app.js"></script>
+
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.12/js/adal.min.js"></script>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.12/js/adal-angular.min.js"></script>
+
+    HELLO WORLD
+
+    <h1>userInfo</h1>
+    <pre>{{userInfo | json }}</pre>
+
+    <div ng-view></div>
+</body>
+
+</html>

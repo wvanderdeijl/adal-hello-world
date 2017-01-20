@@ -1,0 +1,39 @@
+<!doctype html>
+<html ng-app="adal-return">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <base href="/">
+</head>
+
+<body>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.11/angular.js"></script>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.12/js/adal.min.js"></script>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.12/js/adal-angular.min.js"></script>
+
+    <script type="text/javascript">
+        // this file runs in the Azure AD iframe instead of the normal index.html to prevent endless looping as the index.html would
+        // trigger another authentication loop with another iframe, etc, etc. The key is that this angular app does not have a default
+        // angular route that is protected
+        angular.module('adal-return', ['AdalAngular'])
+            .config(function($httpProvider, adalAuthenticationServiceProvider, $windowProvider) {
+                Logging = {
+                    level: 3,
+                    log: function (message) { console.log('adal frame', message); }
+                };
+                adalAuthenticationServiceProvider.init({
+                    clientId: '3c2fd875-af86-471b-b4eb-e33cb5b9ea18',
+                    tenant: 'wilfredvanderdeijl.onmicrosoft.com',
+                    redirectUri: $windowProvider.$get().location.origin+'/adal.html',
+                    extraQueryParameter: 'nux=1',
+                    //cacheLocation: 'localStorage', // enable this for IE, as sessionStorage does not work for localhost.
+                },
+                $httpProvider
+            );
+        });
+    </script>
+</body>
+
+</html>
