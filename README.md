@@ -1,5 +1,7 @@
 # Application to demo endless ADAL redirects
 
+Reproducable testcase for issue AzureAD/azure-activedirectory-library-for-js#463
+
 Steps te reproduce:
 ```
 npm install
