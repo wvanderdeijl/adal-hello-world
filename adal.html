@@ -18,21 +18,40 @@
         // trigger another authentication loop with another iframe, etc, etc. The key is that this angular app does not have a default
         // angular route that is protected
         angular.module('adal-return', ['AdalAngular'])
-            .config(function($httpProvider, adalAuthenticationServiceProvider, $windowProvider) {
+            .config(function ($httpProvider, adalAuthenticationServiceProvider, $windowProvider) {
                 Logging = {
                     level: 3,
                     log: function (message) { console.log('adal frame', message); }
                 };
+                debugger;
                 adalAuthenticationServiceProvider.init({
+                    // navigateToLoginRequestUrl only has effect that after succesful login user is not
+                    // redirected back to main app, but stays on adal.html. Does nothing
+                    // for failed login attempts
+                    // navigateToLoginRequestUrl: false,
                     clientId: '3c2fd875-af86-471b-b4eb-e33cb5b9ea18',
                     tenant: 'wilfredvanderdeijl.onmicrosoft.com',
-                    redirectUri: $windowProvider.$get().location.origin+'/adal.html',
+                    redirectUri: $windowProvider.$get().location.origin + '/adal.html',
                     extraQueryParameter: 'nux=1',
                     //cacheLocation: 'localStorage', // enable this for IE, as sessionStorage does not work for localhost.
                 },
-                $httpProvider
-            );
-        });
+                    $httpProvider
+                );
+            })
+            .run(function ($rootScope, $window, $location, $timeout) {
+                $rootScope.$on('adal:notAuthorized', (event, rejection, forResource) => {
+                    console.log('adal.html rootScope not authorized', event, rejection, forResource);
+                    debugger;
+                });
+                $rootScope.$on('adal:loginFailure', (event, rejection, forResource) => {
+                    console.log('adal.html rootScope loginFailure', event, rejection, forResource);
+                    debugger;
+                });
+                $rootScope.$on('adal:loginSuccess', (event, rejection, forResource) => {
+                    console.log('adal.html rootScope loginSuccess', event, rejection, forResource);
+                    debugger;
+                });
+            });
     </script>
 </body>
 

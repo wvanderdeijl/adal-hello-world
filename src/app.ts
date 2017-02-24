@@ -7,6 +7,20 @@ import 'angular-route';
 // notokay@wilfredvanderdeijl.onmicrosoft.com with password    Zupa8695Qabu3960
 
 angular.module('adal-hello-world', ['ngRoute', 'AdalAngular'])
+    .run(($rootScope: ng.IRootScopeService) => {
+        $rootScope.$on('adal:notAuthorized', (event: any, rejection: any, forResource: any) => {
+            console.log('rootScope not authorized', event, rejection, forResource);
+            debugger;
+        });
+        $rootScope.$on('adal:loginFailure', (event: any, rejection: any, forResource: any) => {
+            console.log('rootScope loginFailure', event, rejection, forResource);
+            debugger;
+        });
+        $rootScope.$on('adal:loginSuccess', (event: any, rejection: any, forResource: any) => {
+            console.log('rootScope loginSuccess', event, rejection, forResource);
+            debugger;
+        });
+    })
     .config(($routeProvider: ng.route.IRouteProvider, $locationProvider: ng.ILocationProvider) => {
         $locationProvider.html5Mode(true).hashPrefix('$');
         $routeProvider
@@ -33,19 +47,19 @@ angular.module('adal-hello-world', ['ngRoute', 'AdalAngular'])
     ;
 
 class RouteController {
-    constructor($scope:ng.IScope) {
+    constructor($scope: ng.IScope) {
         console.log('CREATING RouteController');
         $scope.$on('adal:notAuthorized', (event: any, rejection: any, forResource: any) => {
+            console.log('RouteController.scope not authorized', event, rejection, forResource);
             debugger;
-            console.log('XXXXXXXXXXXXX not authorized', event, rejection, forResource);
         });
         $scope.$on('adal:loginFailure', (event: any, rejection: any, forResource: any) => {
+            console.log('RouteController.scope loginFailure', event, rejection, forResource);
             debugger;
-            console.log('XXXXXXXXXXXXX loginFailure', event, rejection, forResource);
         });
         $scope.$on('adal:loginSuccess', (event: any, rejection: any, forResource: any) => {
+            console.log('RouteController.scope loginSuccess', event, rejection, forResource);
             debugger;
-            console.log('XXXXXXXXXXXXX loginSuccess', event, rejection, forResource);
         });
     }
 }
