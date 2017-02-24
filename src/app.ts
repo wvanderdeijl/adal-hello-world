@@ -29,6 +29,10 @@ angular.module('adal-hello-world', ['ngRoute', 'AdalAngular'])
                 controller: RouteController,
                 requireADLogin: true
             })
+            .when('/realerror', {
+                template: 'THIS IS ERROR PAGE',
+                controller: RouteController
+            })
             .otherwise('/protected');
     })
     .config((adalAuthenticationServiceProvider: adal.AdalAuthenticationServiceProvider, $httpProvider: ng.IHttpProvider) => {

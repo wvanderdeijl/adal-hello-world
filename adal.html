@@ -45,6 +45,8 @@
                 });
                 $rootScope.$on('adal:loginFailure', (event, rejection, forResource) => {
                     console.log('adal.html rootScope loginFailure', event, rejection, forResource);
+                    // have to redirect in timeout so we do this after adal tries to redirect back to origin page
+                    $timeout(() => $window.location.href = '/realerror');
                     debugger;
                 });
                 $rootScope.$on('adal:loginSuccess', (event, rejection, forResource) => {
